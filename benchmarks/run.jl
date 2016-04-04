@@ -1,7 +1,7 @@
 using SparseVectorMatrix
 
 const num_iters = 10
-const scale = num_iters^3
+const scale = 10^3
 
 println("Running benchmarks for GetIndex")
     include("getindex.jl")

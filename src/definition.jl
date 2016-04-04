@@ -124,10 +124,7 @@ function vcat(A::SVMatrix...)
         end
     end
     n = A[1].n
-    svlist = Array(SparseVector, n)
-    for c in 1:n
-        svlist[c] = vcat(map(x->x.svlist[c], A)...)
-    end
+    svlist = SparseVector[vcat(map(x->x.svlist[c], A)...) for c in 1:n]
     SVMatrix(m, n, svlist)
 end
 
