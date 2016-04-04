@@ -1,5 +1,6 @@
 module SparseVectorMatrix
 
-# package code goes here
+include("definition.jl")
+include("randgen.jl")
 
 end # module
