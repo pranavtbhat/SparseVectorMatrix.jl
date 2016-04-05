@@ -12,14 +12,19 @@ full(A::SparseMatrixCD) = hcat(map(full, A.svlist)...)
 # Sparse
 function vsparse{Tv}(A::AbstractArray{Tv, 2})
     m, n = size(A)
-    SparseMatrixCD{Tv, Int}(m, n, [sparse(A[:,c]) for c in 1 : size(A, 2)])
+    svlist = Vector{SparseVector{Tv, Int}}(n)
+
+    for c in 1 : n
+        @inbounds svlist[c] = sparse(A[1+(c-1)*m : c*m])
+    end
+    SparseMatrixCD{Tv, Int}(m, n, svlist)
 end
 
 # Convert from SparseMatrixCSC to SparseMatrixCD
 function SparseMatrixCD{Tv, Ti}(X::SparseMatrixCSC{Tv, Ti})
     m = X.m
     n = X.n
-    svlist = Array{SparseVector{Tv, Ti}}(n)
+    svlist = Array{SparseVector{Tv, Ti}, 1}(n)
 
     colptrX = X.colptr
     nzvalX = X.nzval
