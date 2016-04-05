@@ -22,3 +22,7 @@ println("-----------------------------------------------------------------------
 println("Running benchmarks for Grid Concatenation")
     include("hvcat.jl")
 println("----------------------------------------------------------------------------")
+
+println("Running benchmarks for Matrix Conversions")
+    include("conversion.jl")
+println("----------------------------------------------------------------------------")

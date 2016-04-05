@@ -4,7 +4,8 @@
 # are distjoint.
 ###
 
-import Base: size, nnz, show, copy
+import Base: size, nnz, show, copy, ==, isequal
+
 export SparseMatrixCD
 
 type SparseMatrixCD{Tv, Ti}
@@ -41,3 +42,7 @@ end
 
 # Copy
 copy{Tv, Ti}(x::SparseMatrixCD{Tv, Ti}) = SparseMatrixCD{Tv, Ti}(x.m, x.n, deepcopy(x.svlist))
+
+# Equality
+(==)(x::SparseMatrixCD, y::SparseMatrixCD) = (x.m == y.m) && (x.n == y.n) && reduce(&, map(==, x.svlist, y.svlist))
+isequal(x::SparseMatrixCD, y::SparseMatrixCD) = isequal(x.m, y.m) && isequal(x.n, y.n) && reduce(&, map(isequal, x.svlist, y.svlist))
