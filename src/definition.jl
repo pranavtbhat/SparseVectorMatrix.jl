@@ -34,7 +34,7 @@ function show{Tv, Ti}(io::IO, x::SparseMatrixCD{Tv, Ti})
     for c in 1 : x.n
         sv = x.svlist[c]
         for r in 1 : nnz(sv)
-            write(io, "\t[$(sv.nzind[r]), $c] = $(sv[r])\n")
+            write(io, "\t[$(sv.nzind[r]), $c] = $(sv.nzval[r])\n")
         end
     end
 end

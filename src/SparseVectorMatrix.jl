@@ -16,6 +16,6 @@ include("conversion.jl")
 include("concatenation.jl")
 
 # Random Generation
-include("randgen.jl")
+include("generate.jl")
 
 end # module
