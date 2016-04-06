@@ -1,5 +1,5 @@
 sm = sprand(scale, scale, 0.1)
-svm = spmrand(scale, scale, 0.1)
+svm = svmrand(scale, scale, 0.1)
 
 println("Unit Indexing on SparseMatrixCSC")
 for i in 1:num_iters

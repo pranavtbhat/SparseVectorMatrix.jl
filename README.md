@@ -10,7 +10,7 @@ to just one column each.
 using SparseVectorMatrix
 
 # Random Generation
-a = spmrand(100, 100, 0.1)
+a = svmrand(100, 100, 0.1)
 
 # Getindex
 a[:, 1]                      # Returns an entire column quickly
@@ -21,16 +21,16 @@ a[:, 1] = 1:100              # Assign an entire column quickly.
 a[1, :] = 1:100              # Assign an entire row, by slowly.
 
 #Concatenation
-b = spmrand(100, 100, 0.1)
+b = svmrand(100, 100, 0.1)
 hcat(a, b)                   # Concatenates horizontally. Very fast.
 vcat(a, b)                   # Concatenates vertically. Not as fast.
 
-arr = [spmrand(100, 100, 0.1) for i in 1:4]
+arr = [svmrand(100, 100, 0.1) for i in 1:4]
 hvcat((2,2), arr..)          # Grid Concatenation. Quite fast.
 ```
 
 ## What's supported?
-- spmrand (Similar to sprand)
+- svmrand (Similar to sprand)
 - getindex
 - setindex
 - hcat
