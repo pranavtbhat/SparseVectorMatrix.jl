@@ -1,5 +1,3 @@
-using SparseVectorMatrix
-
 sm_arr  = [sprand(scale, scale, 0.1) for i in 1:num_iters]
 svm_arr = [svmrand(scale, scale, 0.1) for i in 1:num_iters]
 

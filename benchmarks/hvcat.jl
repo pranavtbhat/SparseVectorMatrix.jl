@@ -1,5 +1,3 @@
-using SparseVectorMatrix
-
 sm_arr  = [sprand(scale, scale, 0.1) for i in 1:9]
 svm_arr = [svmrand(scale, scale, 0.1) for i in 1:9]
 
@@ -10,5 +8,5 @@ end
 
 println("SparseVectorMatrix Concatenation")
 for i in 1:num_iters
-    @time hcat((3, 3, 3), svm_arr...);
+    @time hvcat((3, 3, 3), svm_arr...);
 end
