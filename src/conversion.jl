@@ -2,7 +2,7 @@
 # This file contains conversions from vector-sparse matrices to other matrix types
 ###
 
-import Base: full
+import Base: full, SparseMatrixCSC
 
 export vsparse
 
@@ -35,4 +35,19 @@ function SparseMatrixCD{Tv, Ti}(X::SparseMatrixCSC{Tv, Ti})
         svlist[col] = SparseVector{Tv, Ti}(m, rowvalX[rr], nzvalX[rr])
     end
     SparseMatrixCD{Tv, Ti}(m, n, svlist)
+end
+
+function SparseMatrixCSC{Tv, Ti}(X::SparseMatrixCD{Tv,Ti})
+    m = X.m
+    n = X.n
+
+    rowval = vcat(map(x->x.nzind, X.svlist)...)
+    nzval = vcat(map(x->x.nzval, X.svlist)...)
+    colptr = Array(Ti, n+1)
+
+    colptr[1] = 1
+    for c in 1 : n
+        colptr[c+1] = colptr[c] + nnz(X.svlist[c])
+    end
+    SparseMatrixCSC(m, n, colptr, rowval, nzval)
 end
