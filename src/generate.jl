@@ -1,27 +1,58 @@
-export svmzeros, svmrand, svmrandbool, svmeye
+import Base: spzeros, speye, sprand, sprandbool
 
-# Generate an empty mxn sparse vector matrix
-function svmzeros(Tv::Type, m::Integer, n::Integer)
+###
+# SPZEROS
+###
+
+""" Generate an empty mxn sparse vector matrix """
+function spzeros(Tv::Type, ::ColumnVector, m::Integer, n::Integer)
     SparseMatrixCD{Tv, Int}(m, n, [spzeros(Tv, m) for c in 1 : n])
 end
-svmzeros(m::Integer, n::Integer) = svmzeros(Float64, m, n)
 
-# Generate a mxn sparse vector matrix with floating point entries
-function svmrand(m::Integer, n::Integer, d::Float64)
-    SparseMatrixCD{Float64, Int}(m, n, [sprand(m, d) for c in 1 : n])
+function spzeros(Tv::Type, ::RowVector, m::Integer, n::Integer)
+    SparseMatrixRD{Tv, Int}(m, n, [spzeros(Tv, m) for c in 1 : n])
 end
 
-# Generate a mxn sparse vector matrix with boolean entries
-function svmrandbool(m::Integer, n::Integer, d::Float64)
+spzeros(T::SliceDimension, m::Integer, n::Integer) = svmzeros(Float64, T, m, n)
+
+
+###
+# SPRAND
+###
+
+""" Generate a mxn sparse vector matrix with random floating point entries """
+function sprand(::ColumnVector, m::Integer, n::Integer, d::Float64)
+    SparseMatrixCD(m, n, [sprand(m, d) for c in 1 : n])
+end
+
+function sprand(::RowVector, m::Integer, n::Integer, d::Float64)
+    SparseMatrixRD(m, n, [sprand(m, d) for c in 1 : n])
+end
+
+
+###
+# SPRANDBOOL
+###
+
+""" Generate a mxn sparse vector matrix with boolean entries """
+function sprandbool(::ColumnVector, m::Integer, n::Integer, d::Float64)
     SparseMatrixCD{Bool, Int}(m, n, [sprandbool(m, d) for c in 1 : n])
 end
 
-# Generate an identity mxn vector matrix with floating point entries
-function svmeye(Tv::Type, m::Integer, n::Integer)
-    svm = svmzeros(Tv, m, n)
+function sprandbool(::ColumnVector, m::Integer, n::Integer, d::Float64)
+    SparseMatrixCD{Bool, Int}(m, n, [sprandbool(m, d) for c in 1 : n])
+end
+
+###
+# SPEYE
+###
+""" Generate an identity mxn vector matrix with floating point entries """
+function speye(Tv::Type, sd::SliceDimension, m::Integer, n::Integer)
+    svm = spzeros(Tv, sd, m, n)
     for i in 1 : min(m, n)
         setindex!(svm.svlist[i], one(Tv), i)
     end
     svm
 end
-svmeye(m::Integer, n::Integer) = svmeye(Float64, m, n)
+
+speye(sd::SliceDimension, m::Integer, n::Integer) = speye(Float64, sd, m, n)
